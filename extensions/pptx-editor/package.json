@@ -1,0 +1,43 @@
+{
+	"name": "pptx-editor",
+	"displayName": "%displayName%",
+	"description": "%description%",
+	"version": "1.0.0",
+	"publisher": "vscode",
+	"license": "AGPL-3.0",
+	"engines": {
+		"vscode": "^1.70.0"
+	},
+	"main": "./out/extension",
+	"extensionKind": [
+		"ui",
+		"workspace"
+	],
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [],
+	"capabilities": {
+		"virtualWorkspaces": true,
+		"untrustedWorkspaces": {
+			"supported": true
+		}
+	},
+	"contributes": {
+		"customEditors": [
+			{
+				"viewType": "pptxEditor.preview",
+				"displayName": "%customEditor.pptxPreview.displayName%",
+				"priority": "default",
+				"selector": [
+					{
+						"filenamePattern": "*.pptx"
+					}
+				]
+			}
+		]
+	},
+	"devDependencies": {
+		"@types/node": "22.x"
+	}
+}

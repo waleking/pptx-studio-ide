@@ -1,0 +1,6 @@
+{
+	"displayName": "PPTX Editor",
+	"description": "PowerPoint presentation editor with OnlyOffice integration",
+	"customEditor.pptxPreview.displayName": "PPTX Preview",
+	"command.openPreview": "Open PPTX Preview"
+}
