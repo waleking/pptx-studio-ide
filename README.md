@@ -1,78 +1,122 @@
-# Visual Studio Code - Open Source ("Code - OSS")
-[![Feature Requests](https://img.shields.io/github/issues/microsoft/vscode/feature-request.svg)](https://github.com/microsoft/vscode/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)
-[![Bugs](https://img.shields.io/github/issues/microsoft/vscode/bug.svg)](https://github.com/microsoft/vscode/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)
-[![Gitter](https://img.shields.io/badge/chat-on%20gitter-yellow.svg)](https://gitter.im/Microsoft/vscode)
+# PPTX Studio IDE
 
-## The Repository
+A specialized IDE for editing PowerPoint presentations, built on VS Code with OnlyOffice integration.
 
-This repository ("`Code - OSS`") is where we (Microsoft) develop the [Visual Studio Code](https://code.visualstudio.com) product together with the community. Not only do we work on code and issues here, we also publish our [roadmap](https://github.com/microsoft/vscode/wiki/Roadmap), [monthly iteration plans](https://github.com/microsoft/vscode/wiki/Iteration-Plans), and our [endgame plans](https://github.com/microsoft/vscode/wiki/Running-the-Endgame). This source code is available to everyone under the standard [MIT license](https://github.com/microsoft/vscode/blob/main/LICENSE.txt).
+## Overview
 
-## Visual Studio Code
+PPTX Studio IDE transforms VS Code into a powerful PowerPoint editing environment. Open `.pptx` files directly in the IDE and edit them with a full WYSIWYG editor powered by OnlyOffice Document Server.
 
-<p align="center">
-  <img alt="VS Code in action" src="https://user-images.githubusercontent.com/35271042/118224532-3842c400-b438-11eb-923d-a5f66fa6785a.png">
-</p>
+## Features
 
-[Visual Studio Code](https://code.visualstudio.com) is a distribution of the `Code - OSS` repository with Microsoft-specific customizations released under a traditional [Microsoft product license](https://code.visualstudio.com/License/).
+- **WYSIWYG PowerPoint Editing** - Full visual editing with OnlyOffice
+- **VS Code Foundation** - All the power of VS Code (extensions, themes, keybindings)
+- **Built-in Extension** - No marketplace installation required
+- **Local Processing** - Your files stay on your machine
 
-[Visual Studio Code](https://code.visualstudio.com) combines the simplicity of a code editor with what developers need for their core edit-build-debug cycle. It provides comprehensive code editing, navigation, and understanding support along with lightweight debugging, a rich extensibility model, and lightweight integration with existing tools.
+## Quick Start
 
-Visual Studio Code is updated monthly with new features and bug fixes. You can download it for Windows, macOS, and Linux on [Visual Studio Code's website](https://code.visualstudio.com/Download). To get the latest releases every day, install the [Insiders build](https://code.visualstudio.com/insiders).
+### Prerequisites
+
+- Node.js v22.x
+- Docker (for OnlyOffice Document Server)
+- Python 3.10+
+- Build tools (gcc/g++ on Linux, Xcode on macOS, Visual Studio Build Tools on Windows)
+
+### Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/waleking/pptx-studio-ide.git
+cd pptx-studio-ide
+
+# 2. Start OnlyOffice Document Server
+docker run -d -p 8080:80 --name onlyoffice-pptx onlyoffice/documentserver
+
+# 3. Install dependencies
+npm install
+
+# 4. Build
+npm run build
+
+# 5. Run
+./scripts/code.sh
+```
+
+For detailed setup instructions, see [GETTING-STARTED.md](GETTING-STARTED.md).
+
+## Architecture
+
+```
+┌────────────────────────────────────────────────┐
+│              PPTX Studio IDE                   │
+│  ┌──────────────────────────────────────────┐  │
+│  │         pptx-editor Extension            │  │
+│  │  - Custom editor for .pptx files         │  │
+│  │  - Webview with OnlyOffice integration   │  │
+│  └─────────────────┬────────────────────────┘  │
+│                    │ HTTP                      │
+│  ┌─────────────────▼────────────────────────┐  │
+│  │    OnlyOffice Document Server (Docker)   │  │
+│  │  - WYSIWYG presentation editor           │  │
+│  │  - 90%+ MS Office compatibility          │  │
+│  └──────────────────────────────────────────┘  │
+└────────────────────────────────────────────────┘
+```
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [GETTING-STARTED.md](GETTING-STARTED.md) | Complete setup and usage guide |
+| [docs/PHASE1-SETUP.md](docs/PHASE1-SETUP.md) | VS Code fork & build process |
+| [docs/PHASE2-EXTENSION.md](docs/PHASE2-EXTENSION.md) | Extension development details |
+| [docs/PHASE3-ONLYOFFICE.md](docs/PHASE3-ONLYOFFICE.md) | OnlyOffice integration |
+| [docs/DISTRIBUTION-STRATEGY.md](docs/DISTRIBUTION-STRATEGY.md) | Future distribution plans |
+
+## Project Status
+
+| Phase | Status | Description |
+|-------|--------|-------------|
+| 1. Fork & Build | Complete | VS Code forked and building |
+| 2. Extension | Complete | Built-in pptx-editor extension |
+| 3. OnlyOffice | Complete | WYSIWYG editing integration |
+| 4. Distribution | Planned | Bundle OnlyOffice for easy install |
+| 5. AI Features | Planned | AI-assisted slide generation |
+
+## Development
+
+### Rebuild Extension
+
+```bash
+npx gulp compile-extension:pptx-editor
+```
+
+### Watch Mode
+
+```bash
+npx gulp watch-extension:pptx-editor
+```
+
+### Run Tests
+
+```bash
+npm test
+```
 
 ## Contributing
 
-There are many ways in which you can participate in this project, for example:
-
-* [Submit bugs and feature requests](https://github.com/microsoft/vscode/issues), and help us verify as they are checked in
-* Review [source code changes](https://github.com/microsoft/vscode/pulls)
-* Review the [documentation](https://github.com/microsoft/vscode-docs) and make pull requests for anything from typos to additional and new content
-
-If you are interested in fixing issues and contributing directly to the code base,
-please see the document [How to Contribute](https://github.com/microsoft/vscode/wiki/How-to-Contribute), which covers the following:
-
-* [How to build and run from source](https://github.com/microsoft/vscode/wiki/How-to-Contribute)
-* [The development workflow, including debugging and running tests](https://github.com/microsoft/vscode/wiki/How-to-Contribute#debugging)
-* [Coding guidelines](https://github.com/microsoft/vscode/wiki/Coding-Guidelines)
-* [Submitting pull requests](https://github.com/microsoft/vscode/wiki/How-to-Contribute#pull-requests)
-* [Finding an issue to work on](https://github.com/microsoft/vscode/wiki/How-to-Contribute#where-to-contribute)
-* [Contributing to translations](https://aka.ms/vscodeloc)
-
-## Feedback
-
-* Ask a question on [Stack Overflow](https://stackoverflow.com/questions/tagged/vscode)
-* [Request a new feature](CONTRIBUTING.md)
-* Upvote [popular feature requests](https://github.com/microsoft/vscode/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)
-* [File an issue](https://github.com/microsoft/vscode/issues)
-* Connect with the extension author community on [GitHub Discussions](https://github.com/microsoft/vscode-discussions/discussions) or [Slack](https://aka.ms/vscode-dev-community)
-* Follow [@code](https://twitter.com/code) and let us know what you think!
-
-See our [wiki](https://github.com/microsoft/vscode/wiki/Feedback-Channels) for a description of each of these channels and information on some other available community-driven channels.
-
-## Related Projects
-
-Many of the core components and extensions to VS Code live in their own repositories on GitHub. For example, the [node debug adapter](https://github.com/microsoft/vscode-node-debug) and the [mono debug adapter](https://github.com/microsoft/vscode-mono-debug) repositories are separate from each other. For a complete list, please visit the [Related Projects](https://github.com/microsoft/vscode/wiki/Related-Projects) page on our [wiki](https://github.com/microsoft/vscode/wiki).
-
-## Bundled Extensions
-
-VS Code includes a set of built-in extensions located in the [extensions](extensions) folder, including grammars and snippets for many languages. Extensions that provide rich language support (inline suggestions, Go to Definition) for a language have the suffix `language-features`. For example, the `json` extension provides coloring for `JSON` and the `json-language-features` extension provides rich language support for `JSON`.
-
-## Development Container
-
-This repository includes a Visual Studio Code Dev Containers / GitHub Codespaces development container.
-
-* For [Dev Containers](https://aka.ms/vscode-remote/download/containers), use the **Dev Containers: Clone Repository in Container Volume...** command which creates a Docker volume for better disk I/O on macOS and Windows.
-  * If you already have VS Code and Docker installed, you can also click [here](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/vscode) to get started. This will cause VS Code to automatically install the Dev Containers extension if needed, clone the source code into a container volume, and spin up a dev container for use.
-
-* For Codespaces, install the [GitHub Codespaces](https://marketplace.visualstudio.com/items?itemName=GitHub.codespaces) extension in VS Code, and use the **Codespaces: Create New Codespace** command.
-
-Docker / the Codespace should have at least **4 Cores and 6 GB of RAM (8 GB recommended)** to run a full build. See the [development container README](.devcontainer/README.md) for more information.
-
-## Code of Conduct
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+Contributions are welcome! Please see the documentation in the `docs/` folder to understand the project architecture.
 
 ## License
 
-Copyright (c) Microsoft Corporation. All rights reserved.
+- **PPTX Studio IDE** - Based on VS Code, [MIT License](LICENSE.txt)
+- **OnlyOffice Document Server** - [AGPL v3](https://github.com/ONLYOFFICE/DocumentServer/blob/master/LICENSE)
 
-Licensed under the [MIT](LICENSE.txt) license.
+## Acknowledgments
+
+- [Visual Studio Code](https://github.com/microsoft/vscode) - The foundation of this IDE
+- [OnlyOffice](https://github.com/ONLYOFFICE) - Document editing engine
+
+---
+
+*This project is a fork of [VS Code](https://github.com/microsoft/vscode) by Microsoft.*
